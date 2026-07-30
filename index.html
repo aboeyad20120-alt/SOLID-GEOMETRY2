@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بيئة الهندسة الفراغية المعززة AR-Geo3D Pro Ultimate</title>
+    <title>بيئة الهندسة الفراغية المعززة AR-Geo3D Master Pro</title>
     <!-- استدعاء مكتبات A-Frame الحديثة والمستقرة -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
@@ -26,7 +26,7 @@
             color: var(--text-light);
         }
 
-        /* شريط العنوان العلوي الاحترافي */
+        /* شريط العنوان العلوي */
         #ui-header {
             position: absolute;
             top: 10px;
@@ -126,26 +126,38 @@
         }
         .btn-action:hover { background: var(--accent-color); }
 
-        /* صندوق وصف المفهوم العلمي المفصل */
+        /* صندوق التعليق الجانبي المطور والمفهوم العلمي */
         #concept-box {
             position: absolute;
             bottom: 20px;
             right: 10px;
             z-index: 999;
             background: var(--panel-bg);
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-radius: 12px;
-            max-width: 320px;
+            max-width: 330px;
             border-right: 4px solid #38bdf8;
             font-size: 0.85rem;
             line-height: 1.5;
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
         #concept-box h4 { margin: 0 0 5px 0; color: #38bdf8; font-size: 0.95rem; }
-        #concept-box p { margin: 0; color: #cbd5e1; font-size: 0.8rem; }
+        #concept-box p { margin: 0 0 10px 0; color: #cbd5e1; font-size: 0.8rem; }
+        
+        .btn-audio {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
 
-        /* لوحة التحكم بالشرح التفاعلي البديل للفيديو */
-        #sim-controls-panel {
+        /* لوحة التحكم بالفيديو المستقل المخصص لكل موضوع */
+        #video-controls-panel {
             position: absolute;
             bottom: 20px;
             left: 50%;
@@ -160,8 +172,8 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
-        .btn-sim-ctrl {
-            background: #10b981;
+        .btn-video-ctrl {
+            background: var(--accent-color);
             color: white;
             border: none;
             padding: 7px 16px;
@@ -176,24 +188,24 @@
 
     <div id="ui-header">
         <div class="title-box">
-            <h1>📐 الهندسة الفراغية المعززة (AR-Geo3D Pro)</h1>
+            <h1>📐 الهندسة الفراغية المعززة (AR-Geo3D)</h1>
             <p>الصف الثالث الثانوي - كتاب وزارة التربية والتعليم</p>
         </div>
         <div class="mode-switch">
-            <button class="btn-mode active" id="btn-3d" onclick="switchMode('3d')">النمط 1: المجسمات الغنية 3D</button>
-            <button class="btn-mode" id="btn-sim" onclick="switchMode('sim')">النمط 2: الشرح التفاعلي الحي</button>
+            <button class="btn-mode active" id="btn-3d" onclick="switchMode('3d')">النمط 1: مجسمات الوحدات 3D</button>
+            <button class="btn-mode" id="btn-video" onclick="switchMode('video')">النمط 2: الفيديوهات والشرح الصوتي</button>
         </div>
     </div>
 
     <!-- لوحة اختيار الموضوعات -->
     <div id="selector-panel">
-        <label style="font-size:0.82rem; color:#38bdf8; font-weight:bold; display:block; margin-bottom:6px;">📘 اختر موضوع وشكل الدرس:</label>
+        <label style="font-size:0.82rem; color:#38bdf8; font-weight:bold; display:block; margin-bottom:6px;">📘 اختر موضوع الدرس:</label>
         <select id="shape-dropdown" class="shape-select" onchange="onTopicChange(this.value)">
-            <option value="plane">1. المستوى ومتجه العمود n (مجموعة غنية)</option>
-            <option value="sphere">2. معادلة الكرة ومركزها (مجموعة غنية)</option>
-            <option value="intersect">3. تقاطع مستويين وخط التقاطع</option>
-            <option value="skew">4. المستقيمات المتخالفة والمستويات الحاملة</option>
-            <option value="cuboid">5. متوازي المستطيلات وإحداثيات النقطة</option>
+            <option value="plane">1. المستوى ومتجه العمود n والمعادلة</option>
+            <option value="sphere">2. معادلة الكرة ومركزها ونصف القطر</option>
+            <option value="intersect">3. تقاطع مستويين في خط مستقيم</option>
+            <option value="skew">4. المستقيمات المتخالفة في الفراغ</option>
+            <option value="cuboid">5. متوازي المستطيلات الإحداثي ونقطة الفراغ</option>
             <option value="vector">6. المتجهات وزوايا الاتجاه 3D</option>
         </select>
 
@@ -203,108 +215,113 @@
         </div>
     </div>
 
-    <!-- صندوق عرض المفهوم العلمي المرتبط بالمشهد -->
+    <!-- صندوق التعليق الجانبي والمفهوم العلمي المدعوم بالصوت -->
     <div id="concept-box">
         <h4 id="c-title">معادلة المستوى في الفراغ</h4>
-        <p id="c-desc">يحتوي المشهد على المستوى الرئيسي، ومتجه العمود (n)، ونقطة المعلومة، ومستوى موازي إضافي لتوضيح المسافة بدقة.</p>
+        <p id="c-desc">يُعين المستوى بمعرفة نقطة تنتمي إليه ومتجه عمودي عليه (ن). المعادلة القياسية: أ س + ب ص + ج ع + د = 0.</p>
+        <button class="btn-audio" onclick="toggleSpeech()">🔊 استماع للشرح الصوتي النقي</button>
     </div>
 
-    <!-- لوحة التحكم بالشرح التفاعلي الحي -->
-    <div id="sim-controls-panel">
-        <button class="btn-sim-ctrl" onclick="toggleSimAnimation()">▶ تشغيل / إيقاف محاكاة الحركة</button>
-        <button class="btn-sim-ctrl" style="background:#0284c7;" onclick="resetSimView()">🔄 إعادة تعيين المحاكاة</button>
+    <!-- لوحة التحكم بفيديوهات المواضيع المستقلة -->
+    <div id="video-controls-panel">
+        <button class="btn-video-ctrl" onclick="playVideo()">▶️ تشغيل</button>
+        <button class="btn-video-ctrl" onclick="pauseVideo()">⏸️ إيقاف</button>
+        <button class="btn-video-ctrl" onclick="restartVideo()">🔄 إعادة الشرح</button>
     </div>
 
     <a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">
         
+        <a-assets>
+            <!-- 6 فيديوهات مستقلة ومخصصة تماماً لكل موضوع دراسي على حدة -->
+            <video id="v-plane" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"></video>
+            <video id="v-sphere" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"></video>
+            <video id="v-intersect" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"></video>
+            <video id="v-skew" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"></video>
+            <video id="v-cuboid" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"></video>
+            <video id="v-vector" playsinline crossorigin="anonymous" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"></video>
+        </a-assets>
+
         <!-- إضاءة متزنة للمشهد -->
         <a-entity light="type: ambient; color: #FFF; intensity: 1.2"></a-entity>
         <a-entity light="type: directional; color: #FFF; intensity: 0.9" position="-1 2 1"></a-entity>
 
         <a-entity camera position="0 2 5.0" look-controls orbit-controls="target: 0 0.5 0; minDistance: 1.5; maxDistance: 9;"></a-entity>
 
-        <!-- المحاور الإحداثية الحادة والنظيفة الثابتة (بدون أي كرات نهائية) -->
+        <!-- المحاور الإحداثية الحادة والنظيفة (بدون كرات طرفية) -->
         <a-entity id="axis-system">
             <a-cylinder position="1.2 0 0" rotation="0 0 -90" radius="0.015" height="2.4" color="#EF4444"></a-cylinder>
-            <a-text value="X" position="2.5 0 0" color="#EF4444" scale="1.2 1.2 1.2" align="center"></a-text>
+            <a-text value="سين" position="2.5 0 0" color="#EF4444" scale="1.2 1.2 1.2" align="center"></a-text>
 
             <a-cylinder position="0 1.2 0" radius="0.015" height="2.4" color="#22C55E"></a-cylinder>
-            <a-text value="Y" position="0 2.5 0" color="#22C55E" scale="1.2 1.2 1.2" align="center"></a-text>
+            <a-text value="صاد" position="0 2.5 0" color="#22C55E" scale="1.2 1.2 1.2" align="center"></a-text>
 
             <a-cylinder position="0 0 1.2" rotation="90 0 0" radius="0.015" height="2.4" color="#3B82F6"></a-cylinder>
-            <a-text value="Z" position="0 0 2.5" color="#3B82F6" scale="1.2 1.2 1.2" align="center"></a-text>
+            <a-text value="عين" position="0 0 2.5" color="#3B82F6" scale="1.2 1.2 1.2" align="center"></a-text>
         </a-entity>
 
-        <!-- [النمط 1: المجسمات الغنية ومتعددة العناصر لكل درس] -->
+        <!-- [النمط 1: الرسومات الدقيقة والمدققة هندسياً لمرتبطة بمنهج الوحدة] -->
         <a-entity id="mode-3d-group" position="0 0 0">
             
-            <!-- 1. المستوى ومتجه العمود n (مجسمات متعددة غنية) -->
+            <!-- 1. المستوى ومتجه العمود -->
             <a-entity id="shape-plane" visible="true">
-                <a-plane position="0 0.5 0" rotation="-35 25 0" width="2.8" height="2.8" color="#0284C7" material="side: double; transparent: true; opacity: 0.7;"></a-plane>
-                <a-plane position="0 1.2 0.5" rotation="-35 25 0" width="1.8" height="1.8" color="#38bdf8" material="side: double; transparent: true; opacity: 0.4;"></a-plane>
+                <a-plane position="0 0.5 0" rotation="-35 25 0" width="2.8" height="2.8" color="#0284C7" material="side: double; transparent: true; opacity: 0.75;"></a-plane>
                 <a-entity position="0 0.5 0" rotation="-35 25 0">
                     <a-cylinder position="0 0 0.8" rotation="90 0 0" radius="0.025" height="1.6" color="#F59E0B"></a-cylinder>
-                    <a-text value="n (a,b,c)" position="0.4 0 1.7" color="#F59E0B" scale="1.1 1.1 1.1"></a-text>
+                    <a-text value="متجه العمود (ن)" position="0.5 0 1.7" color="#F59E0B" scale="1.1 1.1 1.1"></a-text>
                 </a-entity>
-                <a-box position="0.5 0.2 0.5" width="0.15" height="0.15" depth="0.15" color="#10b981"></a-box>
-                <a-text value="نقطة تنتمي للمستوى P0(x1, y1, z1)" position="0.7 0.3 0.6" color="#10b981" scale="0.9 0.9 0.9"></a-text>
+                <a-box position="0.4 0.2 0.4" width="0.12" height="0.12" depth="0.12" color="#10b981"></a-box>
+                <a-text value="نقطة أ(س1، ص1، ع1)" position="0.6 0.3 0.5" color="#10b981" scale="0.9 0.9 0.9"></a-text>
             </a-entity>
 
-            <!-- 2. معادلة الكرة ومركزها (مجسمات متعددة غنية) -->
+            <!-- 2. معادلة الكرة ومركزها -->
             <a-entity id="shape-sphere" visible="false">
                 <a-sphere position="0 0.9 0" radius="1.2" color="#EC4899" material="wireframe: true; wireframeLinewidth: 2;"></a-sphere>
-                <a-sphere position="0 0.9 0" radius="0.1" color="#F59E0B"></a-sphere>
+                <a-sphere position="0 0.9 0" radius="0.08" color="#F59E0B"></a-sphere>
                 <a-cylinder position="0 0.9 0.6" rotation="90 0 0" radius="0.02" height="1.2" color="#38bdf8"></a-cylinder>
-                <a-text value="المركز M(ل، م، ن)" position="0 2.3 0" color="#EC4899" scale="1.1 1.1 1.1" align="center"></a-text>
-                <a-text value="نصف القطر r" position="0.2 1.1 0.6" color="#38bdf8" scale="0.9 0.9 0.9"></a-text>
+                <a-text value="المركز م (ل، م، ن)" position="0 2.3 0" color="#EC4899" scale="1.1 1.1 1.1" align="center"></a-text>
+                <a-text value="نصف القطر (ر)" position="0.2 1.1 0.6" color="#38bdf8" scale="0.9 0.9 0.9"></a-text>
             </a-entity>
 
-            <!-- 3. تقاطع مستويين (مجسمات متعددة غنية) -->
+            <!-- 3. تقاطع مستويين -->
             <a-entity id="shape-intersect" visible="false">
-                <a-plane position="-0.3 0.6 0" rotation="-20 40 0" width="2.6" height="2.0" color="#0284C7" material="side: double; transparent: true; opacity: 0.65;"></a-plane>
-                <a-plane position="0.3 0.6 0" rotation="50 -20 0" width="2.6" height="2.0" color="#10B981" material="side: double; transparent: true; opacity: 0.65;"></a-plane>
+                <a-plane position="-0.3 0.6 0" rotation="-20 40 0" width="2.6" height="2.0" color="#0284C7" material="side: double; transparent: true; opacity: 0.7;"></a-plane>
+                <a-plane position="0.3 0.6 0" rotation="50 -20 0" width="2.6" height="2.0" color="#10B981" material="side: double; transparent: true; opacity: 0.7;"></a-plane>
                 <a-cylinder position="0 0.6 0" rotation="0 40 90" radius="0.04" height="2.8" color="#F59E0B"></a-cylinder>
-                <a-text value="خط التقاطع المشترك بين المستويين" position="0 1.9 0" color="#F59E0B" scale="1.1 1.1 1.1" align="center"></a-text>
+                <a-text value="خط تقاطع المستويين (مستقيم الحل)" position="0 1.9 0" color="#F59E0B" scale="1.1 1.1 1.1" align="center"></a-text>
             </a-entity>
 
-            <!-- 4. المستقيمات المتخالفة (مجسمات متعددة غنية) -->
+            <!-- 4. المستقيمات المتخالفة -->
             <a-entity id="shape-skew" visible="false">
-                <a-plane position="0 1.4 0" rotation="-90 0 0" width="2.6" height="2.0" color="#64748B" material="side: double; transparent: true; opacity: 0.25;"></a-plane>
-                <a-plane position="0 -0.2 0" rotation="-90 0 0" width="2.6" height="2.0" color="#64748B" material="side: double; transparent: true; opacity: 0.25;"></a-plane>
-                <a-cylinder position="0 1.4 0" rotation="0 30 90" radius="0.035" height="2.4" color="#EF4444"></a-cylinder>
-                <a-cylinder position="0 -0.2 0" rotation="0 -60 90" radius="0.035" height="2.4" color="#3B82F6"></a-cylinder>
-                <a-text value="المستقيم الأول L1" position="1.2 1.8 0" color="#EF4444" scale="0.9 0.9 0.9"></a-text>
-                <a-text value="المستقيم الثاني L2 (متخالفان)" position="-1.5 -0.5 0" color="#3B82F6" scale="0.9 0.9 0.9"></a-text>
+                <a-plane position="0 1.3 0" rotation="-90 0 0" width="2.4" height="1.8" color="#64748B" material="side: double; transparent: true; opacity: 0.25;"></a-plane>
+                <a-plane position="0 -0.1 0" rotation="-90 0 0" width="2.4" height="1.8" color="#64748B" material="side: double; transparent: true; opacity: 0.25;"></a-plane>
+                <a-cylinder position="0 1.3 0" rotation="0 30 90" radius="0.03" height="2.2" color="#EF4444"></a-cylinder>
+                <a-cylinder position="0 -0.1 0" rotation="0 -60 90" radius="0.03" height="2.2" color="#3B82F6"></a-cylinder>
+                <a-text value="مستقيم أول" position="1.1 1.7 0" color="#EF4444" scale="0.9 0.9 0.9"></a-text>
+                <a-text value="مستقيم ثانٍ (متخالفان)" position="-1.2 -0.4 0" color="#3B82F6" scale="0.9 0.9 0.9"></a-text>
             </a-entity>
 
-            <!-- 5. متوازي المستطيلات الإحداثي (مجسمات متعددة غنية) -->
+            <!-- 5. متوازي المستطيلات الإحداثي -->
             <a-entity id="shape-cuboid" visible="false">
                 <a-box position="0.8 0.6 0.8" width="1.6" height="1.2" depth="1.6" color="#8B5CF6" material="wireframe: true; wireframeLinewidth: 2.5;"></a-box>
                 <a-sphere position="0.8 1.2 0.8" radius="0.08" color="#F59E0B"></a-sphere>
-                <a-cylinder position="0.8 0.6 0.8" radius="0.015" height="1.2" color="#22C55E"></a-cylinder>
-                <a-text value="النقطة الفراغية P(س، ص، ع)" position="0.9 1.4 0.8" color="#8B5CF6" scale="1 1 1"></a-text>
-                <a-text value="مسقط على المستوي س ص" position="0.8 0.1 0.8" color="#22C55E" scale="0.8 0.8 0.8"></a-text>
+                <a-text value="النقطة ب (س، ص، ع)" position="0.9 1.4 0.8" color="#8B5CF6" scale="1 1 1"></a-text>
             </a-entity>
 
-            <!-- 6. المتجهات وزوايا الاتجاه (مجسمات متعددة غنية) -->
+            <!-- 6. المتجهات وزوايا الاتجاه -->
             <a-entity id="shape-vector" visible="false">
                 <a-cylinder position="0.6 0.7 0.6" rotation="-35 45 0" radius="0.03" height="1.8" color="#F59E0B"></a-cylinder>
-                <a-sphere position="1.2 1.4 1.2" radius="0.09" color="#EF4444"></a-sphere>
-                <a-cylinder position="0.6 0 0" rotation="0 0 -90" radius="0.015" height="1.2" color="#EF4444"></a-cylinder>
-                <a-cylinder position="0 0.7 0" radius="0.015" height="1.4" color="#22C55E"></a-cylinder>
-                <a-text value="متجه الموضع r = (س، ص، ع)" position="1.3 1.6 1.2" color="#F59E0B" scale="1 1 1"></a-text>
-                <a-text value="زوايا الاتجاه (θx, θy, θz)" position="0 2.2 0" color="#38bdf8" scale="1.0 1.0 1.0" align="center"></a-text>
+                <a-sphere position="1.2 1.4 1.2" radius="0.08" color="#EF4444"></a-sphere>
+                <a-text value="متجه الموضع ر = (س، ص، ع)" position="1.3 1.6 1.2" color="#F59E0B" scale="1 1 1"></a-text>
+                <a-text value="زوايا الاتجاه مع المحاور" position="0 2.2 0" color="#38bdf8" scale="1.0 1.0 1.0" align="center"></a-text>
             </a-entity>
 
         </a-entity>
 
-        <!-- [النمط 2: مختبر الشرح التفاعلي الحي بديل الفيديوهات المتوقفة] -->
-        <a-entity id="mode-sim-group" position="0 0 0" visible="false">
-            <a-entity id="animated-model" position="0 0.8 0">
-                <a-box width="1.4" height="1.4" depth="1.4" color="#0284c7" material="wireframe: true; wireframeLinewidth: 3;"></a-box>
-                <a-sphere radius="0.8" color="#10b981" material="transparent: true; opacity: 0.6;"></a-sphere>
-                <a-text value="محاكاة تفاعلية لحركة المجسمات الفراغية" position="0 1.8 0" color="#38bdf8" scale="1.1 1.1 1.1" align="center"></a-text>
-            </a-entity>
+        <!-- [النمط 2: شاشة عرض الفيديو المستقل للموضوع] -->
+        <a-entity id="mode-video-group" position="0 0.6 0" visible="false">
+            <a-video id="video-screen" src="#v-plane" width="3.8" height="2.1" position="0 0.5 0"></a-video>
+            <a-plane position="0 0.5 -0.04" width="3.95" height="2.25" color="#0F172A"></a-plane>
+            <a-text id="video-title-3d" value="فيديو تعليمي: المستوى في الفراغ" position="0 1.7 0" color="#38bdf8" scale="1.1 1.1 1.1" align="center"></a-text>
         </a-entity>
 
     </a-scene>
@@ -313,104 +330,163 @@
         let currentMode = '3d';
         let currentTopic = 'plane';
         let isRotating = false;
-        let isSimRunning = false;
-        let simAnimId = null;
 
-        // بنك المفاهيم العلمية المفصلة
+        // بنك التعليقات والمفاهيم العلمية المرتبطة بكل درس مع النص الصوتي
         const conceptData = {
             'plane': {
-                title: 'معادلة المستوى في الفراغ (غني بالمكونات)',
-                desc: 'يعرض المشهد المستوى الأساسي، متجه العمود (n)، نقطة المعلومة، ومستوى موازي إضافي لتوضيح قياس المسافة بين المستويين بنجاح.'
+                title: 'معادلة المستوى في الفراغ',
+                desc: 'المستوى يُعين بمعرفة نقطة تنتمي إليه ومتجه عمودي عليه (ن). المعادلة القياسية: أ س + ب ص + ج ع + د = 0.',
+                audioText: 'شرح معادلة المستوى في الفراغ. يُعين المستوى بمعرفة نقطة تنتمي إليه ومتجه عمودي عليه يسمى نون. المعادلة القياسية هي أ س زائد ب ص زائد ج ع زائد د يساوي صفراً.'
             },
             'sphere': {
-                title: 'معادلة الكرة ومركزها (عرض متكامل)',
-                desc: 'يوضح المشهد الكرة الإحداثية بشبكة الأسلاك، مركزها (ل، م، ن)، نصف القطر (ر)، والخط الواصل بين المركز وأي نقطة عليها.'
+                title: 'معادلة الكرة في الفراغ',
+                desc: 'الكرة هي مجموعة نقاط تبعد بعداً ثابتاً (نصف القطر ر) عن المركز م(ل، م، ن). المعادلة: (س-ل)^2 + (ص-م)^2 + (ع-ن)^2 = ر^2.',
+                audioText: 'شرح معادلة الكرة في الفراغ. الكرة هي مجموعة نقاط تبعد بعداً ثابتاً وهو نصف القطر عن نقطة ثابتة وهي المركز م. المعادلة هي مربع س ناقص ل زائد مربع ص ناقص م زائد مربع ع ناقص ن يساوي مربع نصف القطر.'
             },
             'intersect': {
                 title: 'تقاطع مستويين في خط مستقيم',
-                desc: 'يمثل المشهد مستويين متقاطعين بلونين مختلفين يجمعهما خط مستقيم بارز يمثل مجموعة حل المعادلتين.'
+                desc: 'يتقاطع المستويان في الفراغ في "خط مستقيم" مشترك، وتُحسب معادلته بحل المعادلتين آنياً.',
+                audioText: 'شرح تقاطع مستويين في الفراغ. يتقاطع المستويان في الفراغ دائماً في خط مستقيم مشترك، ويمكن إيجاد معادلته بحل معادلتي المستويين معاً.'
             },
             'skew': {
-                title: 'المستقيمات المتخالفة والمستويات الحاملة',
-                desc: 'يوضح مستقيمين لا يتقاطعان ولا يوازيان بعضهما، مع وضع مستويات افتراضية حاملة لتوضيح استحالة وقوعهما في مستوى واحد.'
+                title: 'المستقيمات المتخالفة',
+                desc: 'المستقيمان المتخالفان هما مستقيمان لا يجمعهما مستوى واحد، وليس متوازيين ولا متقاطعين.',
+                audioText: 'شرح المستقيمات المتخالفة. المستقيمان المتخالفان هما مستقيمان لا يجمعهما مستوى واحد، وغير متقاطعين وغير متوازيين.'
             },
             'cuboid': {
-                title: 'متوازي المستطيلات وإحداثيات النقطة',
-                desc: 'يجسد متوازي المستطيلات الإحداثي في الفراغ الثلاثي لتوضيح مساقط النقطة (س، ص، ع) على المستويات والمحاور الثلاثة.'
+                title: 'متوازي المستطيلات الإحداثي',
+                desc: 'يُستخدم متوازي المستطيلات لتمثيل إحداثيات النقطة (س، ص، ع) في الفراغ الثلاثي وتعيين مساقطها.',
+                audioText: 'شرح متوازي المستطيلات الإحداثي. يُستخدم متوازي المستطيلات لتوضيح إحداثيات أي نقطة في الفراغ الثلاثي س وص وع ومساقطها على المستويات الإحداثية.'
             },
             'vector': {
-                title: 'المتجهات وزوايا الاتجاه في الفراغ',
-                desc: 'يعرض متجه الموضع في الفراغ ومركباته على المحاور الثلاثة مع إبراز زوايا الاتجاه وجيوب تمامها.'
+                title: 'المتجهات وزوايا الاتجاه',
+                desc: 'المتجه في الفراغ له ثلاث مركبات ويصنع زوايا اتجاه (θx, θy, θz) حيث مجموع مربعات جيوب تمامها يساوي واحد.',
+                audioText: 'شرح المتجهات وزوايا الاتجاه في الفراغ. المتجه في الفراغ يحدد بمركباته الثلاثة، ويصنع زوايا اتجاه مع المحاور الإحداثية الموجبة، حيث مجموع مربعات جيوب تمام تلك الزوايا يساوي واحد الصحيح.'
             }
+        };
+
+        const vMap = {
+            'plane': '#v-plane',
+            'sphere': '#v-sphere',
+            'intersect': '#v-intersect',
+            'skew': '#v-skew',
+            'cuboid': '#v-cuboid',
+            'vector': '#v-vector'
+        };
+
+        const videoTitles = {
+            'plane': 'فيديو تعليمي: المستوى ومتجه العمود',
+            'sphere': 'فيديو تعليمي: معادلة الكرة ومركزها',
+            'intersect': 'فيديو تعليمي: تقاطع مستويين في خط',
+            'skew': 'فيديو تعليمي: المستقيمات المتخالفة',
+            'cuboid': 'فيديو تعليمي: متوازي المستطيلات الإحداثي',
+            'vector': 'فيديو تعليمي: المتجهات وزوايا الاتجاه'
         };
 
         function switchMode(mode) {
             currentMode = mode;
+            window.speechSynthesis.cancel(); // إيقاف أي صوت حالي عند التبديل
+
             const group3D = document.getElementById('mode-3d-group');
-            const groupSim = document.getElementById('mode-sim-group');
+            const groupVideo = document.getElementById('mode-video-group');
             const btn3D = document.getElementById('btn-3d');
-            const btnSim = document.getElementById('btn-sim');
-            const simControls = document.getElementById('sim-controls-panel');
+            const btnVideo = document.getElementById('btn-video');
+            const vControls = document.getElementById('video-controls-panel');
             const conceptBox = document.getElementById('concept-box');
             const tools3D = document.getElementById('tools-3d');
 
             if (mode === '3d') {
                 group3D.setAttribute('visible', 'true');
-                groupSim.setAttribute('visible', 'false');
-                stopSimAnimation();
+                groupVideo.setAttribute('visible', 'false');
+                stopAllVideos();
                 
                 btn3D.classList.add('active');
-                btnSim.classList.remove('active');
-                simControls.style.display = 'none';
+                btnVideo.classList.remove('active');
+                vControls.style.display = 'none';
                 conceptBox.style.display = 'block';
                 tools3D.style.display = 'grid';
             } else {
                 group3D.setAttribute('visible', 'false');
-                groupSim.setAttribute('visible', 'true');
+                groupVideo.setAttribute('visible', 'true');
                 
-                btnSim.classList.add('active');
+                btnVideo.classList.add('active');
                 btn3D.classList.remove('active');
-                simControls.style.display = 'flex';
-                conceptBox.style.display = 'none';
+                vControls.style.display = 'flex';
+                conceptBox.style.display = 'block'; // يبقي التعليق الجانبي ظاهراً لشرح الفيديو
                 tools3D.style.display = 'none';
+                
+                playTopicVideo();
             }
         }
 
         function onTopicChange(val) {
             currentTopic = val;
+            window.speechSynthesis.cancel(); // إيقاف الصوت عند تغير الموضوع
             
-            // إظهار المجسم الغني المرتبط وإخفاء الباقي
+            // 1. إظهار المجسم الدقيق المرتبط بالموضوع وإخفاء الباقي
             const shapes = ['plane', 'sphere', 'intersect', 'skew', 'cuboid', 'vector'];
             shapes.forEach(s => {
                 const elem = document.getElementById(`shape-${s}`);
                 if (elem) elem.setAttribute('visible', s === val);
             });
 
-            // تحديث صندوق المفهوم العلمي النصي تلقائياً
+            // 2. تحديث صندوق التعليق الجانبي والمفهوم العلمي تلقائياً
             const cData = conceptData[val];
             document.getElementById('c-title').innerText = cData.title;
             document.getElementById('c-desc').innerText = cData.desc;
-        }
 
-        function toggleSimAnimation() {
-            const animModel = document.getElementById('animated-model');
-            isSimRunning = !isSimRunning;
-            if (isSimRunning) {
-                animModel.setAttribute('animation', 'property: rotation; to: 360 360 0; loop: true; dur: 8000; easing: linear');
-            } else {
-                animModel.removeAttribute('animation');
+            // 3. تحديث عنوان الفيديو في نمط الفيديو
+            document.getElementById('video-title-3d').setAttribute('value', videoTitles[val]);
+
+            // 4. إذا كان في نمط الفيديو، تشغيل الفيديو المستقل الخاص بهذا الموضوع فوراً
+            if (currentMode === 'video') {
+                playTopicVideo();
             }
         }
 
-        function resetSimView() {
-            const animModel = document.getElementById('animated-model');
-            animModel.removeAttribute('animation');
-            animModel.setAttribute('rotation', '0 0 0');
-            isSimRunning = false;
+        // نظام توليد الصوت النقي (Text-to-Speech) باللغة العربية
+        function toggleSpeech() {
+            window.speechSynthesis.cancel(); // إيقاف أي قراءة سابقة لمنع التداخل
+            const textToSpeak = conceptData[currentTopic].audioText;
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'ar-SA'; // لغة عربية صحيحة
+            utterance.rate = 0.95; // سرعة هادئة ومناسبة للشرح التعليمي
+            utterance.pitch = 1.0;
+            
+            window.speechSynthesis.speak(utterance);
         }
 
-        function stopSimAnimation() {
-            resetSimView();
+        function playTopicVideo() {
+            stopAllVideos();
+            const vId = vMap[currentTopic];
+            const videoScreen = document.getElementById('video-screen');
+            videoScreen.setAttribute('src', vId);
+            const vEl = document.querySelector(vId);
+            if(vEl) {
+                vEl.currentTime = 0;
+                vEl.play();
+            }
+        }
+
+        function stopAllVideos() {
+            Object.values(vMap).forEach(id => {
+                const el = document.querySelector(id);
+                if(el) el.pause();
+            });
+        }
+
+        function playVideo() {
+            const el = document.querySelector(vMap[currentTopic]);
+            if(el) el.play();
+        }
+
+        function pauseVideo() {
+            stopAllVideos();
+        }
+
+        function restartVideo() {
+            playTopicVideo();
         }
 
         function rotateModel() {
